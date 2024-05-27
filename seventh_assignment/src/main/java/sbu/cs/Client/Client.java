@@ -1,3 +1,5 @@
+package sbu.cs.Client;
+
 // Client Class
 public class Client {
     // TODO: Implement the client-side operations
