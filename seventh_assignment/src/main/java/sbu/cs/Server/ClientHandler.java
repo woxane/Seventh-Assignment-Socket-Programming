@@ -21,7 +21,7 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             clientHandlers.add(this);
 
-            broadcast("SERVER : " + this.clientUsername + " has entered the chat !");
+            broadcast("SERVER : " + this.clientUsername + " has entered the chat !" , true);
 
         } catch (IOException e) {
             closeEverything(socket , bufferedReader , bufferedWriter);
@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 message = bufferedReader.readLine();
-                broadcast(message);
+                broadcast(message , true);
 
             } catch (IOException e) {
                 closeEverything(socket , bufferedReader , bufferedWriter);
@@ -44,7 +44,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void broadcast(String message) {
+    public void broadcast(String message , Boolean update) {
+        if (update) {
+            updateChatHistory(message);
+        }
+
         for (ClientHandler clientHandler : clientHandlers) {
             try {
                 if (!clientHandler.clientUsername.equals(clientUsername)) {
@@ -61,7 +65,7 @@ public class ClientHandler implements Runnable {
 
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        broadcast("SERVER : " + this.clientUsername + " has left the chat !");
+        broadcast("SERVER : " + this.clientUsername + " has left the chat !" , true);
     }
 
     public void updateChatHistory(String message) {
