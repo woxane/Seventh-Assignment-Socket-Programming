@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public class ClientHandler implements Runnable {
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    private static ArrayList<String> chatHistory = new ArrayList<>();
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
+    private static final int HISTORY_SIZE = 10;
 
     public ClientHandler(Socket socket) {
         try {
@@ -60,6 +62,13 @@ public class ClientHandler implements Runnable {
     public void removeClientHandler() {
         clientHandlers.remove(this);
         broadcast("SERVER : " + this.clientUsername + " has left the chat !");
+    }
+
+    public void updateChatHistory(String message) {
+        chatHistory.add(message);
+        if (chatHistory.size() > HISTORY_SIZE) {
+            chatHistory.remove(0);
+        }
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
