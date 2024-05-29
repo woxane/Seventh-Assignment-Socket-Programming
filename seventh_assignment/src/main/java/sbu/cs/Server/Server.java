@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+    public static final String FILE_PATH = "./data/" ;
     private static final int PORT = 12345;
     private ServerSocket serverSocket;
 
