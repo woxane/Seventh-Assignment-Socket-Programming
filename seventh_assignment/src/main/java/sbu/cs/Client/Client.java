@@ -56,6 +56,9 @@ public class Client {
 
             closeEverything(socket , bufferedReader , bufferedWriter);
         }
+
+        this.listenMessage();
+        this.sendMessage();
     }
 
     public static void main(String[] args) throws IOException {
