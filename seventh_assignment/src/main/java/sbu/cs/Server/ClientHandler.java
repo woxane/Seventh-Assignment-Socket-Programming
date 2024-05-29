@@ -7,6 +7,7 @@ import sbu.cs.Client.Client;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,6 +185,30 @@ public class ClientHandler implements Runnable {
 
             closeEverything(socket , bufferedReader , bufferedWriter);
         }
+    }
 
+    public void sendSelectedFile(int index) {
+        try {
+            File[] fileLists = new File(Server.FILE_PATH).listFiles();
+            File selectedFile = fileLists[index];
+
+            List<String> fileLines = Files.readAllLines(selectedFile.toPath());
+            String fileContent = String.join("\n" , fileLines);
+
+            try {
+                bufferedWriter.write(fileContent);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+
+            } catch (IOException e) {
+                closeEverything(socket , bufferedReader , bufferedWriter);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error during read file ! : " + e.getMessage());
+            e.printStackTrace();
+
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
     }
 }
