@@ -22,6 +22,8 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             clientHandlers.add(this);
 
+            historyBroadcast();
+
             broadcast("SERVER : " + this.clientUsername + " has entered the chat !");
 
         } catch (IOException e) {
@@ -73,6 +75,19 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public void historyBroadcast() {
+        if (chatHistory.size() != 0) {
+            this.bufferedWriter.write("Last " + chatHistory.size() + "messages : ")
+            this.bufferedWriter.newLine();
+            this.bufferedWriter.flush();
+
+            for (String message : chatHistory) {
+                this.bufferedWriter.write("\t" + message);
+                this.bufferedWriter.newLine();
+                this.bufferedWriter.flush();
+            }
+        }
+    }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
         removeClientHandler();
 
