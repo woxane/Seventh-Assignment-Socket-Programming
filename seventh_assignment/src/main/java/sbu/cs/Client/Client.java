@@ -1,8 +1,13 @@
 package sbu.cs.Client;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Client {
@@ -25,8 +30,38 @@ public class Client {
     }
 
 
-    public static void main(String[] args) {
+    public void enterGroupchat() {
         Scanner scanner = new Scanner(System.in);
+        String username = scanner.nextLine();
+        this.username = username;
+
+        Request request = new Request(1);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer();
+
+        try {
+            String json = objectWriter.writeValueAsString(request);
+            bufferedWriter.write(json);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+        } catch (JsonProcessingException e) {
+            System.err.println("Error during serialize the class to json: " + e.getMessage());
+            e.printStackTrace();
+
+            closeEverything(socket , bufferedReader , bufferedWriter);
+
+        } catch (IOException e) {
+            System.err.println("Error during sending the serialized request");
+
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        Socket socket = new Socket("localhost" , PORT);
+        Client client = new Client(socket);
         int option;
 
         System.out.print("1) Enter group chat\n2) File download\n: ");
@@ -43,11 +78,11 @@ public class Client {
 
         switch (option) {
             case 1 :
-                enterGroupchat();
+                client.enterGroupchat();
                 break;
 
             case 2 :
-                downloadFile();
+                client.downloadFile();
                 break;
         }
     }
