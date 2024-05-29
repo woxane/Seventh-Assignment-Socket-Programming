@@ -34,6 +34,7 @@ public class Client {
 
     public void enterGroupchat() {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your username : ");
         String username = scanner.nextLine();
         this.username = username;
 
@@ -100,7 +101,7 @@ public class Client {
     public void downloadFile() {
         Scanner scanner = new Scanner(System.in);
 
-        sendRequest(1);
+        sendRequest(2);
 
         ArrayList<String> fileNames =  getFileNames();
 
