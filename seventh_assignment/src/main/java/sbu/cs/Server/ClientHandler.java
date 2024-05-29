@@ -89,4 +89,9 @@ public class ClientHandler implements Runnable {
             }
         }
     }
+
+    public void removeClientHandler() {
+        clientHandlers.remove(this);
+        broadcast("SERVER : " + this.clientUsername + " has left the chat !");
+    }
 }
