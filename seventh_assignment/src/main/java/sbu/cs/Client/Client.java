@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -35,27 +36,7 @@ public class Client {
         String username = scanner.nextLine();
         this.username = username;
 
-        Request request = new Request(1);
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter objectWriter = objectMapper.writer();
-
-        try {
-            String json = objectWriter.writeValueAsString(request);
-            bufferedWriter.write(json);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-
-        } catch (JsonProcessingException e) {
-            System.err.println("Error during serialize the class to json: " + e.getMessage());
-            e.printStackTrace();
-
-            closeEverything(socket , bufferedReader , bufferedWriter);
-
-        } catch (IOException e) {
-            System.err.println("Error during sending the serialized request");
-
-            closeEverything(socket , bufferedReader , bufferedWriter);
-        }
+        sendRequest(1);
 
         this.listenMessage();
         this.sendMessage();
@@ -112,6 +93,36 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void downloadFile() {
+        Scanner scanner = new Scanner(System.in);
+
+        sendRequest(1);
+
+        ArrayList<String> fileNames =  getFileNames();
+
+        System.out.println("Please choose one of the above files : ");
+
+        for (int i = 0 ; i < fileNames.size() ; i++) {
+            System.out.println(i + 1 + ") " + fileNames.get(i));
+        }
+        System.out.print(": ");
+
+        int option = scanner.nextInt();
+
+        while (true) {
+            if (option > 0 && option <= fileNames.size()) {
+                break;
+            } else {
+                System.out.print("Please choose between 1 and " + fileNames.size() + " : ");
+                option = scanner.nextInt();
+            }
+        }
+
+        sendRequest(option);
+        getFile();
     }
 
 
