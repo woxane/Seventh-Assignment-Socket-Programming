@@ -3,11 +3,9 @@ package sbu.cs.Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class Server {
     private static final int PORT = 12345;
-    public static ArrayList<String> chatHistory = new ArrayList<>();
     private ServerSocket serverSocket;
 
     public Server(ServerSocket serverSocket) {
