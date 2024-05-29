@@ -113,4 +113,23 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public void historyBroadcast() {
+        try {
+            if (chatHistory.size() != 0) {
+                this.bufferedWriter.write("Last " + chatHistory.size() + " messages : ");
+                this.bufferedWriter.newLine();
+                this.bufferedWriter.flush();
+
+                for (String message : chatHistory) {
+                    this.bufferedWriter.write("\t" + message);
+                    this.bufferedWriter.newLine();
+                    this.bufferedWriter.flush();
+                }
+            }
+        } catch (IOException e) {
+            closeEverything(socket , bufferedReader , bufferedWriter);
+
+        }
+    }
 }
