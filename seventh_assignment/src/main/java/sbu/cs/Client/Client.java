@@ -61,6 +61,25 @@ public class Client {
         this.sendMessage();
     }
 
+    public void sendMessage() {
+        try {
+            bufferedWriter.write(this.username);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+            Scanner scanner = new Scanner(System.in);
+            while (socket.isConnected()) {
+                String message = username + " : " + scanner.nextLine();
+                bufferedWriter.write(message);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+            }
+
+        } catch (IOException e) {
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("localhost" , PORT);
