@@ -80,6 +80,24 @@ public class Client {
         }
     }
 
+    public void listenMessage() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String message;
+
+                while (socket.isConnected()) {
+                    try {
+                        message = bufferedReader.readLine();
+                        System.out.println(message);
+                    } catch (IOException e) {
+                        closeEverything(socket , bufferedReader , bufferedWriter);
+                    }
+                }
+            }
+        }).start();
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("localhost" , PORT);
