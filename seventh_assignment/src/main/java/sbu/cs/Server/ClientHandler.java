@@ -46,4 +46,22 @@ public class ClientHandler implements Runnable {
                 break;
         }
     }
+
+    public void enterGroupchat() {
+        try {
+            String message;
+
+            this.clientUsername = this.bufferedReader.readLine();
+            historyBroadcast();
+            broadcast("SERVER : " + this.clientUsername + " has entered the chat !");
+
+            while (socket.isConnected()) {
+                message = this.bufferedReader.readLine();
+                broadcast(message);
+            }
+
+        } catch (IOException e) {
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+    }
 }
