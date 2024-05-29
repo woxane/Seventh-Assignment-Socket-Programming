@@ -35,11 +35,10 @@ public class Client {
 
             Scanner scanner = new Scanner(System.in);
             while (socket.isConnected()) {
-                String message = scanner.nextLine();
-                bufferedWriter.write(username + " : " + message);
+                String message = username + " : " + scanner.nextLine();
+                bufferedWriter.write(message);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
-
             }
 
         } catch (IOException e) {
@@ -86,7 +85,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your username : ");
+        System.out.print("Enter your username : ");
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost" , PORT);
         Client client = new Client(socket , username);
