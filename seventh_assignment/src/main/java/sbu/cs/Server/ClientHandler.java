@@ -1,5 +1,8 @@
 package sbu.cs.Server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import sbu.cs.Client.Client;
 
 import java.io.*;
@@ -155,5 +158,32 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendFileList() {
+        File[] fileLists = new File(Server.FILE_PATH).listFiles();
+        ArrayList<String> fileNames = new ArrayList<>();
+
+        for (File file : fileLists) {
+            fileNames.add(file.getName());
+        }
+
+        Response response = new Response(fileNames);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer();
+
+        try {
+            String json = objectWriter.writeValueAsString(response);
+            bufferedWriter.write(json);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+        } catch (Exception e) {
+            System.err.println("Error during deserialization: " + e.getMessage());
+            e.printStackTrace();
+
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+
     }
 }
