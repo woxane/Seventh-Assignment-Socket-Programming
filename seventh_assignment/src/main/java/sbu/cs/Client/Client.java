@@ -126,6 +126,31 @@ public class Client {
     }
 
 
+    public void sendRequest(int index) {
+        Request request = new Request(index);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer();
+
+        try {
+            String json = objectWriter.writeValueAsString(request);
+            bufferedWriter.write(json);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+        } catch (JsonProcessingException e) {
+            System.err.println("Error during serialize the class to json: " + e.getMessage());
+            e.printStackTrace();
+
+            closeEverything(socket, bufferedReader, bufferedWriter);
+
+        } catch (IOException e) {
+            System.err.println("Error during sending the serialized request");
+
+            closeEverything(socket, bufferedReader, bufferedWriter);
+        }
+    }
+
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("localhost" , PORT);
