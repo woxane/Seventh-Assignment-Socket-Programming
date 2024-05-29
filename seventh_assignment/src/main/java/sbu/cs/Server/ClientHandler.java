@@ -1,5 +1,7 @@
 package sbu.cs.Server;
 
+import sbu.cs.Client.Client;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -69,6 +71,22 @@ public class ClientHandler implements Runnable {
         chatHistory.add(message);
         if (chatHistory.size() > HISTORY_SIZE) {
             chatHistory.remove(0);
+        }
+    }
+
+    public void broadcast(String message) {
+        updateChatHistory(message);
+
+        for (ClientHandler clientHandler : clientHandlers) {
+            try {
+                if (!clientHandler.clientUsername.equals(this.clientUsername)) {
+                    clientHandler.bufferedWriter.write(message);
+                    clientHandler.bufferedWriter.newLine();
+                    clientHandler.bufferedWriter.flush();
+                }
+            } catch (IOException e) {
+                closeEverything(socket , bufferedReader , bufferedWriter);
+            }
         }
     }
 }
