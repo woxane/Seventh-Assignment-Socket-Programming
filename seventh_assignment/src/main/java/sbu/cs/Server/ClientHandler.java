@@ -3,10 +3,11 @@ package sbu.cs.Server;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientHandler implements Runnable {
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-    private static ArrayList<String> chatHistory = new ArrayList<>();
+    private static List<String> chatHistory = new ArrayList<>();
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
@@ -21,7 +22,7 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             clientHandlers.add(this);
 
-            broadcast("SERVER : " + this.clientUsername + " has entered the chat !" , true);
+            broadcast("SERVER : " + this.clientUsername + " has entered the chat !");
 
         } catch (IOException e) {
             closeEverything(socket , bufferedReader , bufferedWriter);
@@ -35,7 +36,7 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 message = bufferedReader.readLine();
-                broadcast(message , true);
+                broadcast(message);
 
             } catch (IOException e) {
                 closeEverything(socket , bufferedReader , bufferedWriter);
@@ -44,10 +45,8 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void broadcast(String message , Boolean update) {
-        if (update) {
-            updateChatHistory(message);
-        }
+    public void broadcast(String message) {
+        updateChatHistory(message);
 
         for (ClientHandler clientHandler : clientHandlers) {
             try {
@@ -55,7 +54,6 @@ public class ClientHandler implements Runnable {
                     clientHandler.bufferedWriter.write(message);
                     clientHandler.bufferedWriter.newLine();
                     clientHandler.bufferedWriter.flush();
-
                 }
             } catch (IOException e) {
                 closeEverything(socket , bufferedReader , bufferedWriter);
@@ -65,7 +63,7 @@ public class ClientHandler implements Runnable {
 
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        broadcast("SERVER : " + this.clientUsername + " has left the chat !" , true);
+        broadcast("SERVER : " + this.clientUsername + " has left the chat !");
     }
 
     public void updateChatHistory(String message) {
