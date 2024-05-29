@@ -4,6 +4,7 @@ package sbu.cs.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import sbu.cs.Server.Response;
 
 import java.io.*;
 import java.net.Socket;
@@ -148,6 +149,20 @@ public class Client {
 
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
+    }
+
+    public ArrayList<String> getFileNames() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = bufferedReader.readLine();
+            Response response = objectMapper.readValue(json , Response.class);
+
+            return response.getFileNames();
+        } catch (IOException e) {
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+
+        return null;
     }
 
 
