@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     private static final int PORT = 12345;
-    private static final int HISTORY_SIZE = 10;
-    private static List<String> chatHistory = new ArrayList<>();
+    public static ArrayList<String> chatHistory = new ArrayList<>();
     private ServerSocket serverSocket;
 
     public Server(ServerSocket serverSocket) {
