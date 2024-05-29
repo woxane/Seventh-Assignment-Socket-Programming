@@ -48,6 +48,7 @@ public class ClientHandler implements Runnable {
             // Download file
             case 2 :
                 downloadFile();
+                closeEverything(socket , bufferedReader , bufferedWriter);
                 break;
 
             default :
@@ -154,7 +155,6 @@ public class ClientHandler implements Runnable {
         sendFileList();
         int index = getSelectedOption();
         sendSelectedFile(index);
-
     }
 
     public void sendFileList() {
