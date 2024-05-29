@@ -33,7 +33,6 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        sendMenu();
         int index = getSelectedOption();
 
         switch (index) {
@@ -131,5 +130,16 @@ public class ClientHandler implements Runnable {
             closeEverything(socket , bufferedReader , bufferedWriter);
 
         }
+    }
+
+
+    public int getSelectedOption() {
+        try {
+            int index = Integer.parseInt(bufferedReader.readLine());
+            return index;
+        } catch (IOException e) {
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+        return 0;
     }
 }
