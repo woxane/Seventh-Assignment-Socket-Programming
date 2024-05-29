@@ -98,6 +98,23 @@ public class Client {
         }).start();
     }
 
+    public void closeEverything(Socket socket , BufferedReader bufferedReader , BufferedWriter bufferedWriter) {
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+            if (bufferedWriter != null) {
+                bufferedWriter.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("localhost" , PORT);
