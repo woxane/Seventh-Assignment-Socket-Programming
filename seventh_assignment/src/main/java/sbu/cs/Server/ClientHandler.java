@@ -194,6 +194,9 @@ public class ClientHandler implements Runnable {
             String fileContent = String.join("\n" , fileLines);
 
             try {
+                bufferedWriter.write(selectedFile.getName());
+                bufferedWriter.newLine();
+
                 bufferedWriter.write(fileContent);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
