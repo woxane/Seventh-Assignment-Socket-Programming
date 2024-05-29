@@ -64,4 +64,11 @@ public class ClientHandler implements Runnable {
             closeEverything(socket , bufferedReader , bufferedWriter);
         }
     }
+
+    public void updateChatHistory(String message) {
+        chatHistory.add(message);
+        if (chatHistory.size() > HISTORY_SIZE) {
+            chatHistory.remove(0);
+        }
+    }
 }
