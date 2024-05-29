@@ -165,6 +165,20 @@ public class Client {
         return null;
     }
 
+    public void getFile() {
+        try {
+            String fileName = bufferedReader.readLine();
+            FileWriter fileWriter = new FileWriter(fileName);
+            String fileContent = bufferedReader.readLine();
+            fileWriter.write(fileContent);
+            System.out.println("The file has successfully written on your disk <3");
+
+        } catch (IOException e) {
+            System.err.println("Error during running the getFile function");
+            closeEverything(socket , bufferedReader , bufferedWriter);
+        }
+    }
+
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
