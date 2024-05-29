@@ -76,16 +76,21 @@ public class ClientHandler implements Runnable {
     }
 
     public void historyBroadcast() {
-        if (chatHistory.size() != 0) {
-            this.bufferedWriter.write("Last " + chatHistory.size() + "messages : ")
-            this.bufferedWriter.newLine();
-            this.bufferedWriter.flush();
-
-            for (String message : chatHistory) {
-                this.bufferedWriter.write("\t" + message);
+        try {
+            if (chatHistory.size() != 0) {
+                this.bufferedWriter.write("Last " + chatHistory.size() + "messages : ");
                 this.bufferedWriter.newLine();
                 this.bufferedWriter.flush();
+
+                for (String message : chatHistory) {
+                    this.bufferedWriter.write("\t" + message);
+                    this.bufferedWriter.newLine();
+                    this.bufferedWriter.flush();
+                }
             }
+        } catch (IOException e) {
+            closeEverything(socket , bufferedReader , bufferedWriter);
+
         }
     }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
