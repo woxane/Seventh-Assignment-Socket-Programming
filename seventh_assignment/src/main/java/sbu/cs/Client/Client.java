@@ -23,4 +23,32 @@ public class Client {
             closeEverything(socket , bufferedReader , bufferedWriter);
         }
     }
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int option;
+
+        System.out.print("1) Enter group chat\n2) File download\n: ");
+        option = scanner.nextInt();
+
+        while (true) {
+            if (option == 1 | option == 2) {
+                break;
+            } else {
+                System.out.print("Please choose one of the above (1 / 2) : ");
+                option = scanner.nextInt();
+            }
+        }
+
+        switch (option) {
+            case 1 :
+                enterGroupchat();
+                break;
+
+            case 2 :
+                downloadFile();
+                break;
+        }
+    }
 }
