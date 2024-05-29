@@ -156,7 +156,7 @@ public class ClientHandler implements Runnable {
     public void downloadFile() {
         sendFileList();
         int index = getSelectedOption();
-        sendSelectedFile(index);
+        sendSelectedFile(index - 1);
     }
 
     public void sendFileList() {
