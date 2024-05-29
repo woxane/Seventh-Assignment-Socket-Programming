@@ -205,6 +205,7 @@ public class Client {
 
             case 2 :
                 client.downloadFile();
+                client.closeEverything(socket , client.bufferedReader , client.bufferedWriter);
                 break;
         }
     }
