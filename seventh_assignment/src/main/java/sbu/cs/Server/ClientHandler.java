@@ -151,14 +151,10 @@ public class ClientHandler implements Runnable {
     }
 
     public void downloadFile() {
-        try {
-            sendFileList();
-            int index = getSelectedOption();
-            sendSelectedFile(index);
+        sendFileList();
+        int index = getSelectedOption();
+        sendSelectedFile(index);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void sendFileList() {
