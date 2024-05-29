@@ -1,9 +1,8 @@
 package sbu.cs.Server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import sbu.cs.Client.Client;
+import sbu.cs.Client.Request;
 
 import java.io.*;
 import java.net.Socket;
@@ -143,8 +142,11 @@ public class ClientHandler implements Runnable {
 
     public int getSelectedOption() {
         try {
-            int index = Integer.parseInt(bufferedReader.readLine());
-            return index;
+            String json = bufferedReader.readLine();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Request request = objectMapper.readValue(json , Request.class);
+
+            return request.getIndex();
         } catch (IOException e) {
             closeEverything(socket , bufferedReader , bufferedWriter);
         }
