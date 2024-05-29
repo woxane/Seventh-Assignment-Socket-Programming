@@ -1,4 +1,4 @@
-package sbu.cs.Server;
+package sbu.cs.Client;
 
 public class Request {
     private int index;
