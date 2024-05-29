@@ -45,6 +45,9 @@ public class ClientHandler implements Runnable {
             case 2 :
                 downloadFile();
                 break;
+
+            default :
+                System.out.println("Wrong shit happend !!!!!");
         }
     }
 
